@@ -306,12 +306,12 @@
         <div class="schedule-header">
             <h1><span style="color: grey;">LINE - UP</span></h1>
             <h1>SCHEDULE</h1>
-            <p class="subtitle">Voorlopig blokkenschema · LoveU Festival 2026 · 10:00 – 23:45</p>
+            <p class="subtitle" data-i18n="lineup.subtitle">Voorlopig blokkenschema · LoveU Festival 2026 · 10:00 – 23:45</p>
         </div>
 
         <div class="day-selector">
-            <button class="day-btn active" data-day="saturday" type="button">Zaterdag</button>
-            <button class="day-btn" data-day="sunday" type="button">Zondag</button>
+            <button class="day-btn active" data-day="saturday" type="button" data-i18n="lineup.saturday">Zaterdag</button>
+            <button class="day-btn" data-day="sunday" type="button" data-i18n="lineup.sunday">Zondag</button>
         </div>
 
         <div class="stage-legend" id="stageLegend"></div>

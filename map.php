@@ -216,14 +216,14 @@
 
     <main class="map-page">
         <section class="map-header">
-            <h1>Festival Map</h1>
-            <p>Tik op een marker voor info. Gebruik GPS om je afstand tot het festivalterrein te zien.</p>
+            <h1 data-i18n="map.header.title">Festival Map</h1>
+            <p data-i18n="map.header.text">Tik op een marker voor info. Gebruik GPS om je afstand tot het festivalterrein te zien.</p>
         </section>
 
         <div class="map-tools">
-            <button class="map-btn" id="findMeBtn" type="button">Gebruik mijn GPS locatie</button>
-            <button class="map-btn secondary" id="fullscreenBtn" type="button">Fullscreen kaart</button>
-            <span class="gps-status" id="gpsStatus">GPS nog niet geactiveerd.</span>
+            <button class="map-btn" id="findMeBtn" type="button" data-i18n="map.findMeBtn">Gebruik mijn GPS locatie</button>
+            <button class="map-btn secondary" id="fullscreenBtn" type="button" data-i18n="map.fullscreenBtn">Fullscreen kaart</button>
+            <span class="gps-status" id="gpsStatus" data-i18n="map.gpsStatus">GPS nog niet geactiveerd.</span>
         </div>
 
         <div class="festival-map-wrap" id="mapWrap">
@@ -232,8 +232,8 @@
         </div>
 
         <section class="map-info-card" id="infoCard" aria-live="polite">
-            <h2>Festival kaart</h2>
-            <p>Deze kaart bevat alle locaties en markers direct in het SVG-bestand.</p>
+            <h2 data-i18n="map.card.title">Festival kaart</h2>
+            <p data-i18n="map.card.text">Deze kaart bevat alle locaties en markers direct in het SVG-bestand.</p>
         </section>
     </main>
 

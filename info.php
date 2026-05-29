@@ -21,7 +21,7 @@
     <main>
       <div class="main">
          <div class="section-home" id="infoHeader1">
-            <div class="section-home-title">
+            <div class="section-home-title" data-i18n="info.header1">
                Algemeen & Contact
             </div>
             <div>
@@ -45,7 +45,7 @@
          </div>
 
          <div class="section-home" id="infoHeader2">
-            <div class="section-home-title">
+            <div class="section-home-title" data-i18n="info.header2">
                Bereikbaarheid
             </div>
             <div>
@@ -83,7 +83,7 @@
          </div>
 
          <div class="section-home" id="infoHeader3">
-            <div class="section-home-title">
+            <div class="section-home-title" data-i18n="info.header3">
                Lockers
             </div>
             <div>
@@ -101,7 +101,7 @@
             </p>
          </div>
          <div class="section-home" id="infoHeader4">
-            <div class="section-home-title">
+            <div class="section-home-title" data-i18n="info.header4">
                FAQ
             </div>
             <div>
@@ -129,7 +129,7 @@
             </p>
          </div>
          <div class="section-home" id="infoHeader5">
-            <div class="section-home-title">
+            <div class="section-home-title" data-i18n="info.header5">
                Golden-GLU
             </div>
             <div>
