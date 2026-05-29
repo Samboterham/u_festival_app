@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveU Festival - Offline</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .offline-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: calc(100vh - 180px);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .offline-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px 24px;
+            max-width: 480px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.25s, border-color 0.25s;
+        }
+
+        .offline-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(240, 50, 40, 0.3));
+        }
+
+        .offline-card h1 {
+            font-family: 'Sansation', sans-serif;
+            font-weight: 700;
+            color: var(--color-vermilion);
+            margin: 0 0 12px;
+            font-size: 1.8rem;
+        }
+
+        .offline-card p {
+            font-family: 'Sansation', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0 0 24px;
+            font-size: 1rem;
+        }
+
+        .offline-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-cerulean);
+            color: #ffffff;
+            font-family: 'Sansation', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            transition: transform 0.2s, filter 0.2s;
+            box-shadow: 0 4px 12px rgba(36, 123, 160, 0.3);
+        }
+
+        .offline-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+        
+        /* Language Toggle in Offline Card */
+        .offline-lang {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // Inline script to quickly set theme before rendering
+        (function () {
+            try {
+                var t = localStorage.getItem('ufestival-theme');
+                document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h1 class="header-tekst">
+                <img src="images/logo_white.svg" class="logo-white" alt="LoveU Logo">
+                <span>U FESTIVAL</span>
+            </h1>
+            <div class="header-actions">
+                <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Schakel donkere modus in">
+                    <img src="images/night-mode.png" id="themeToggle" class="theme-toggle" alt="" width="25" height="25">
+                </button>
+            </div>
+        </div>
+        <div style="height: 3px; background: linear-gradient(90deg, #F03228 0%, #E3B505 50%, #247BA0 100%);"></div>
+    </header>
+
+    <main class="offline-page">
+        <section class="offline-card">
+            <img src="images/logo_white.svg" class="offline-icon" alt="Offline">
+            
+            <div id="content-nl">
+                <h1>Oeps! Je bent offline.</h1>
+                <p>
+                    Het lijkt erop dat je internetverbinding tijdelijk is weggevallen. Geen zorgen! 
+                    De rest van de LoveU Festival app is offline beschikbaar. 
+                    Je kunt het blokkenschema en de terreinkaart gewoon blijven bekijken.
+                </p>
+                <a href="index.php" class="offline-btn">Ga naar Home</a>
+                <div class="offline-lang" onclick="setLang('en')">Switch to English</div>
+            </div>
+
+            <div id="content-en" style="display: none;">
+                <h1>Oops! You are offline.</h1>
+                <p>
+                    It looks like you have lost your internet connection. Don't worry! 
+                    The rest of the LoveU Festival app is available offline. 
+                    You can continue to view the festival schedule and map as usual.
+                </p>
+                <a href="index.php" class="offline-btn">Go to Home</a>
+                <div class="offline-lang" onclick="setLang('nl')">Wissel naar Nederlands</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav class="nav-menu" aria-label="Hoofdnavigatie" style="pointer-events: auto;">
+            <a href="index.php" class="nav-btn" aria-label="Home">
+                <img class="icons" src="images/home-black.png" alt="Home">
+            </a>
+            <a href="info.php" class="nav-btn" aria-label="Info">
+                <img class="icons" src="images/info-black.png" alt="Info">
+            </a>
+            <a href="lineup.php" class="nav-btn" aria-label="Line-up">
+                <img class="icons" src="images/music-black.png" alt="Line-up">
+            </a>
+            <a href="map.php" class="nav-btn" aria-label="Kaart">
+                <img class="icons" src="images/pin-black.png" alt="Kaart">
+            </a>
+        </nav>
+    </footer>
+
+    <script>
+        // Simple inline language and theme toggles for offline page
+        function setLang(lang) {
+            if (lang === 'en') {
+                document.getElementById('content-nl').style.display = 'none';
+                document.getElementById('content-en').style.display = 'block';
+                localStorage.setItem('siteLanguage', 'en');
+            } else {
+                document.getElementById('content-nl').style.display = 'block';
+                document.getElementById('content-en').style.display = 'none';
+                localStorage.setItem('siteLanguage', 'nl');
+            }
+        }
+
+        // Apply saved language on load
+        const savedLang = localStorage.getItem('siteLanguage') || 'nl';
+        setLang(savedLang);
+
+        // Theme Toggle logic
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeToggleImg = document.getElementById('themeToggle');
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeToggleImg.src = 'images/light.png';
+                themeToggleBtn.setAttribute('aria-label', 'Schakel lichte modus in');
+            } else {
+                themeToggleImg.src = 'images/night-mode.png';
+                themeToggleBtn.setAttribute('aria-label', 'Schakel donkere modus in');
+            }
+        }
+
+        const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updateThemeIcon(initialTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('ufestival-theme', nextTheme);
+            updateThemeIcon(nextTheme);
+        });
+
+        // Dark mode icons inversion
+        const observer = new MutationObserver(() => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.querySelectorAll('.nav-menu img.icons').forEach(img => {
+                if (isDark) {
+                    img.style.filter = 'brightness(0) invert(1)';
+                } else {
+                    img.style.filter = 'none';
+                }
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        
+        // Trigger initial observer check
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('ufestival-theme') || 'light');
+    </script>
+</body>
+</html>

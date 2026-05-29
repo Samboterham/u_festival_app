@@ -5,6 +5,14 @@
     </h1>
 
     <div class="header-actions">
+        <span class="offline-badge" id="offlineBadge" style="display: none;" title="Offline modus actief">Offline</span>
+        <button type="button" class="pwa-btn" id="pwaBtn" aria-label="App installeren of delen" style="display: none;">
+            <svg class="pwa-icon" viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; pointer-events: none;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+        </button>
         <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Schakel donkere modus in">
             <img src="images/night-mode.png" id="themeToggle" class="theme-toggle" alt="" width="25" height="25">
         </button>
@@ -122,3 +130,44 @@
     setLanguage(getStoredLanguage());
 </script>
 <script src="theme.js"></script>
+
+<!-- PWA & QR-Code Modal -->
+<div id="pwaModal" class="pwa-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pwaModalTitle">
+    <div class="pwa-modal-content">
+        <div class="pwa-modal-header">
+            <h2 id="pwaModalTitle" class="pwa-modal-title">Installeer LoveU Fest</h2>
+            <button type="button" class="close-pwa-modal" id="closePwaModal" aria-label="Sluit modal">&times;</button>
+        </div>
+        
+        <!-- Modal Tabs -->
+        <div class="pwa-modal-tabs">
+            <button type="button" class="pwa-tab-btn active" id="installTabBtn">Installeren</button>
+            <button type="button" class="pwa-tab-btn" id="qrTabBtn">Delen</button>
+        </div>
+
+        <!-- Install App Section -->
+        <div class="pwa-section" id="pwaInstallSection">
+            <div class="pwa-app-card">
+                <img src="images/pwa-icon.svg" class="pwa-app-logo" alt="LoveU Logo">
+                <div class="pwa-app-info">
+                    <h3 id="pwaInstallTitle">LoveU Festival 2026</h3>
+                    <p>U Festival Team</p>
+                </div>
+            </div>
+            <p class="pwa-desc" id="pwaInstallDesc">Installeer deze app op je startscherm voor snelle toegang en volledige offline beschikbaarheid tijdens het festival!</p>
+            <button type="button" class="pwa-primary-btn" id="doInstallBtn">App Installeren</button>
+        </div>
+
+        <!-- Share App / QR Section -->
+        <div class="pwa-section" id="pwaQrSection" style="display: none;">
+            <h3 id="pwaQrTitle" style="margin-top: 0; font-size: 1.15rem; color: var(--color-brand);">Deel via QR-Code</h3>
+            <p class="pwa-desc" id="pwaQrDesc">Laat je vrienden deze QR-code scannen om het LoveU Festival direct op hun telefoon te openen en te installeren!</p>
+            <div class="pwa-qr-container">
+                <canvas id="pwaQrCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="qrious.min.js"></script>
+<script src="pwa-helper.js"></script>
