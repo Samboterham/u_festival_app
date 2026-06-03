@@ -137,8 +137,8 @@
             transform: translate(-50%, -50%);
             width: 30px;
             height: 30px;
-            border: 3px solid #69008b;
-            background: #d62e39;
+            border: 2px solid var(--color-white);
+            background: var(--color-vermilion);
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
@@ -168,18 +168,59 @@
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 14px;
+            padding: 0;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             width: min(940px, 100%);
             margin: 0 auto;
             box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        @media (min-width: 600px) {
+            .map-info-card {
+                flex-direction: row;
+            }
+        }
+
+        .map-info-img-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--color-cerulean), var(--color-vermilion));
+        }
+
+        @media (min-width: 600px) {
+            .map-info-img-container {
+                width: 250px;
+                height: auto;
+                aspect-ratio: auto;
+            }
+        }
+
+        .map-info-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .map-info-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             overflow-wrap: anywhere;
         }
 
         .map-info-card h2 {
             margin: 0 0 8px;
             color: var(--color-brand);
-            font-size: 1.15rem;
+            font-size: 1.35rem;
         }
 
         .map-info-card p {
@@ -248,10 +289,10 @@
         // The map now uses a single combined SVG asset with baked-in markers.
 
         const locations = [
-            { id: "stage1", label: "1", name: "Ponton", description: "Locatie 1: Ponton (main stage, hoofdacts).", tips: "Volg de hoofdpaden voor de beste toegang." },
-            { id: "stage2", label: "2", name: "The Lake", description: "Locatie 2: The Lake (onbekend talent).", tips: "Perfect voor frisse beats en ontdekkingen." },
-            { id: "stage3", label: "4", name: "Hangar", description: "Locatie 4: Hangar (non stop house/techno/dance).", tips: "Bereid je voor op een nacht vol energie." },
-            { id: "stage4", label: "3", name: "The Club", description: "Locatie 3: The Club (theater en stand-up comedy).", tips: "Kom vroeg voor de beste zitplekken." }
+            { id: "stage1", label: "1", name: "Ponton", description: "Locatie 1: Ponton (main stage, hoofdacts).", tips: "Volg de hoofdpaden voor de beste toegang.", image: "images/ponton.png" },
+            { id: "stage2", label: "2", name: "The Lake", description: "Locatie 2: The Lake (onbekend talent).", tips: "Perfect voor frisse beats en ontdekkingen.", image: "images/thelake.png" },
+            { id: "stage3", label: "4", name: "Hangar", description: "Locatie 4: Hangar (non stop house/techno/dance).", tips: "Bereid je voor op een nacht vol energie.", image: "images/hangar.png" },
+            { id: "stage4", label: "3", name: "The Club", description: "Locatie 3: The Club (theater en stand-up comedy).", tips: "Kom vroeg voor de beste zitplekken.", image: "images/theclub.png" }
         ];
 
         const markerPositions = {
@@ -270,12 +311,27 @@
         const exitFullscreenBtn = document.getElementById("exitFullscreenBtn");
         let fallbackFullscreen = false;
 
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         function setInfo(location) {
+            const imgHtml = location.image ? `
+                <div class="map-info-img-container">
+                    <img src="${location.image}" alt="${escapeHtml(location.name)}" class="map-info-img">
+                </div>
+            ` : '';
+
             infoCard.innerHTML = `
-                <h2>${location.label}. ${location.name}</h2>
-                <p>${location.description}</p>
-                <p><strong>Tip:</strong> ${location.tips}</p>
-                <p><a href="https://www.google.com/maps/dir/?api=1&destination=${festivalLat},${festivalLon}" target="_blank" rel="noopener">Route naar festival in Google Maps</a></p>
+                ${imgHtml}
+                <div class="map-info-content">
+                    <h2>${location.label}. ${escapeHtml(location.name)}</h2>
+                    <p>${escapeHtml(location.description)}</p>
+                    <p><strong>Tip:</strong> ${escapeHtml(location.tips)}</p>
+                    <p><a href="https://www.google.com/maps/dir/?api=1&destination=${festivalLat},${festivalLon}" target="_blank" rel="noopener">Route naar festival in Google Maps</a></p>
+                </div>
             `;
         }
 

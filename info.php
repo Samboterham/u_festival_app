@@ -32,13 +32,13 @@
          <div id="infoBox1" class="info-box hidden">
             <h2>Algemeen & contact</h2>
             <p>Het ❤️U Festival is voor (nieuwe) studenten in de regio Utrecht en is een aanvulling op UIT.</p>
-            <h2 style="color: #28799a;">Adres</h2>
+            <h2>Adres</h2>
             <p>
                Locatie: Strijkviertel, Utrecht
                <br>
                Navigatieadres: Strijkviertelweg, Utrecht
             </p>
-            <h2 style="color: #28799a;">Datum & Openingstijden</h2>
+            <h2>Datum & Openingstijden</h2>
             <p>
                Zaterdag 5 september 2026 - 12:00 tot 23:00 uur
             </p>

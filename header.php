@@ -1,7 +1,13 @@
 <div class="header">
     <h1 class="header-tekst">
-        <img src="images/logo_white.svg" class="logo-white" alt="">
-        <span><span class="brand-accent"></span>U FESTIVAL</span>
+        <button type="button" class="back-btn" id="headerBackBtn" style="display: none;" aria-label="Terug">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <img src="images/logo_white.svg" class="logo-white" id="headerLogo" alt="">
+        <span id="headerTitle">U FESTIVAL</span>
     </h1>
 
     <div class="header-actions">
@@ -14,7 +20,7 @@
             </svg>
         </button>
         <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Schakel donkere modus in">
-            <img src="images/night-mode.png" id="themeToggle" class="theme-toggle" alt="" width="25" height="25">
+            <div class="theme-toggle-icon-css" id="themeToggle"></div>
         </button>
         <button type="button" class="language-toggle-btn" id="languageToggleBtn" aria-label="Taal wijzigen">
             <img src="images/dutch.png" id="flagIcon" alt="Nederlands" class="flag-icon">

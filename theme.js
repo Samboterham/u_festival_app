@@ -12,12 +12,10 @@
         const btn = document.getElementById('themeToggleBtn');
         if (!icon) return;
         if (theme === 'dark') {
-            icon.src = ICON_TO_LIGHT;
-            icon.alt = '';
+            if (icon.tagName === 'IMG') icon.src = ICON_TO_LIGHT;
             if (btn) btn.setAttribute('aria-label', 'Schakel naar lichte modus');
         } else {
-            icon.src = ICON_TO_DARK;
-            icon.alt = '';
+            if (icon.tagName === 'IMG') icon.src = ICON_TO_DARK;
             if (btn) btn.setAttribute('aria-label', 'Schakel naar donkere modus');
         }
     }

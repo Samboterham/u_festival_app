@@ -9,25 +9,27 @@
 :root,
 html[data-theme="light"] {
     --bg-page: var(--color-white);
-    --bg-surface: #f3f3f3;
+    --bg-surface: #f9f9f9;
     --text-primary: var(--color-black);
-    --text-muted: #555555;
-    --text-subtle: #888888;
-    --border-color: rgba(0, 0, 0, 0.12);
+    --text-muted: #444444;
+    --text-subtle: #777777;
+    --border-color: rgba(0, 0, 0, 0.1);
     --color-brand: var(--color-cerulean);
     --color-brand-alt: var(--color-cerulean);
     --color-accent: var(--color-vermilion);
-    --header-bg: linear-gradient(125deg, #2a8ab5 0%, var(--color-cerulean) 45%, #1a6a8a 100%);
+    --header-bg: var(--color-black);
     --header-text: var(--color-white);
-    --footer-bar-bg: var(--color-white);
-    --footer-bar-shadow: 0 8px 32px rgba(36, 123, 160, 0.22);
-    --nav-icon-opacity: 0.38;
-    --nav-active-dot: var(--color-vermilion);
-    --gantt-bg: #eef5f8;
-    --gantt-track-bg: rgba(36, 123, 160, 0.1);
-    --gantt-grid-line: rgba(36, 123, 160, 0.18);
-    --day-btn-bg: var(--color-white);
-    --day-btn-active-bg: var(--color-cerulean);
+    --footer-bar-bg: var(--color-vermilion);
+    --footer-bar-shadow: 0 4px 20px rgba(240, 50, 40, 0.35);
+    --nav-icon-opacity: 0.65;
+    --nav-active-dot: var(--color-saffron);
+    --gantt-bg: #f5fafd;
+    --gantt-track-bg: rgba(36, 123, 160, 0.06);
+    --gantt-grid-line: rgba(36, 123, 160, 0.14);
+    --day-btn-bg: var(--color-cerulean);
+    --day-btn-color: var(--color-white);
+    --day-btn-active-bg: var(--color-black);
+    --day-btn-active-color: var(--color-white);
     --day-btn-border: var(--color-cerulean);
     --subtitle-grey: #888888;
     --info-header-shadow: 0 2px 8px rgba(36, 123, 160, 0.18);
@@ -36,25 +38,27 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] {
     --bg-page: #0a0a0a;
-    --bg-surface: #161616;
+    --bg-surface: #141414;
     --text-primary: var(--color-white);
-    --text-muted: #b0b0b0;
-    --text-subtle: #888888;
-    --border-color: rgba(255, 255, 255, 0.12);
+    --text-muted: #b8b8b8;
+    --text-subtle: #777777;
+    --border-color: rgba(255, 255, 255, 0.08);
     --color-brand: var(--color-cerulean);
     --color-brand-alt: var(--color-cerulean);
     --color-accent: var(--color-vermilion);
-    --header-bg: linear-gradient(125deg, #1a1a1a 0%, #252525 50%, #1a2e38 100%);
+    --header-bg: #000000;
     --header-text: var(--color-white);
-    --footer-bar-bg: #1c1c1c;
-    --footer-bar-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
-    --nav-icon-opacity: 0.4;
+    --footer-bar-bg: var(--color-vermilion);
+    --footer-bar-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
+    --nav-icon-opacity: 0.7;
     --nav-active-dot: var(--color-saffron);
-    --gantt-bg: #141414;
-    --gantt-track-bg: rgba(255, 255, 255, 0.05);
-    --gantt-grid-line: rgba(255, 255, 255, 0.08);
-    --day-btn-bg: #1a1a1a;
-    --day-btn-active-bg: var(--color-cerulean);
+    --gantt-bg: #111111;
+    --gantt-track-bg: rgba(255, 255, 255, 0.04);
+    --gantt-grid-line: rgba(255, 255, 255, 0.06);
+    --day-btn-bg: rgba(36, 123, 160, 0.2);
+    --day-btn-color: var(--color-white);
+    --day-btn-active-bg: var(--color-white);
+    --day-btn-active-color: var(--color-black);
     --day-btn-border: var(--color-cerulean);
     --subtitle-grey: #999999;
     --info-header-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
@@ -208,12 +212,14 @@ main,
     width: 28px;
     height: 28px;
     opacity: var(--nav-icon-opacity);
+    filter: brightness(0) invert(1);
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .nav-menu .nav-btn.active img.icons {
     opacity: 1;
     transform: scale(1.08);
+    filter: brightness(0) invert(1);
 }
 
 .nav-menu .nav-btn.active::after {
@@ -226,14 +232,6 @@ main,
     height: 6px;
     border-radius: 50%;
     background: var(--nav-active-dot);
-}
-
-html[data-theme="dark"] .nav-menu .nav-btn img.icons {
-    filter: brightness(0) invert(1);
-}
-
-html[data-theme="dark"] .nav-menu .nav-btn.active img.icons {
-    filter: brightness(0) invert(1);
 }
 
 .header {
@@ -330,6 +328,7 @@ html[data-theme="dark"] .nav-menu .nav-btn.active img.icons {
     margin: 10px 0;
     border-radius: 14px;
     font-size: 20px;
+    font-style: italic;
     color: var(--color-white);
     background: linear-gradient(135deg, var(--color-cerulean), #1c5e80);
     box-shadow: var(--info-header-shadow);
@@ -352,6 +351,7 @@ html[data-theme="dark"] .nav-menu .nav-btn.active img.icons {
 .arrow-down {
     width: 26px;
     margin-right: 2px;
+    filter: brightness(0) invert(1);
     transition: transform 0.25s ease;
 }
 
@@ -359,6 +359,7 @@ html[data-theme="dark"] .nav-menu .nav-btn.active img.icons {
     width: 24px;
     height: 24px;
     cursor: pointer;
+    filter: brightness(0) invert(1);
     /* Changes mouse to hand icon */
     transition: transform 0.3s ease;
 }
@@ -919,6 +920,62 @@ html[data-theme="dark"] .pwa-modal-tabs {
     display: block;
     width: 180px;
     height: 180px;
+}
+
+/* ==========================================================================
+   MOCKUP STYLE REDESIGN UTILITIES
+   ========================================================================== */
+
+/* Custom CSS Contrast Toggle Circle */
+.theme-toggle-icon-css {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--color-white);
+    background: linear-gradient(90deg, var(--color-vermilion) 50%, var(--color-white) 50%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+html[data-theme="dark"] .theme-toggle-icon-css {
+    transform: rotate(180deg);
+}
+
+/* Header Back Button styling */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--color-vermilion);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s, transform 0.2s;
+    margin-right: 6px;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.back-btn svg {
+    display: block;
+}
+
+/* SPA Detail View toggles */
+body.artist-detail-active #headerLogo {
+    display: none !important;
+}
+
+body.artist-detail-active #headerBackBtn {
+    display: inline-flex !important;
+}
+
+body.artist-detail-active #headerTitle {
+    font-weight: 700;
 }
 
 
