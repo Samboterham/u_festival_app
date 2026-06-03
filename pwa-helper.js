@@ -27,7 +27,6 @@
     const qrTabBtn = document.getElementById('qrTabBtn');
     const installSection = document.getElementById('pwaInstallSection');
     const qrSection = document.getElementById('pwaQrSection');
-    const qrCanvas = document.getElementById('pwaQrCanvas');
     const doInstallBtn = document.getElementById('doInstallBtn');
 
     // Browser- en platformdetectie
@@ -160,21 +159,6 @@
             }
 
             pwaModal.classList.remove('hidden');
-
-            // 4. DYNAMISCHE QR CODE GENERATIE (Offline met QRious)
-            if (qrCanvas && typeof QRious !== 'undefined') {
-                // Haal de huidige pagina URL op
-                const currentUrl = window.location.origin + window.location.pathname;
-                
-                new QRious({
-                    element: qrCanvas,
-                    value: currentUrl,
-                    size: 200,
-                    background: 'white',
-                    foreground: '#247BA0', // Cerulean Blue brand kleur
-                    level: 'H' // High error correction
-                });
-            }
         });
     }
 

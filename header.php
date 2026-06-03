@@ -169,7 +169,7 @@
             <h3 id="pwaQrTitle" style="margin-top: 0; font-size: 1.15rem; color: var(--color-brand);">Deel via QR-Code</h3>
             <p class="pwa-desc" id="pwaQrDesc">Laat je vrienden deze QR-code scannen om het LoveU Festival direct op hun telefoon te openen en te installeren!</p>
             <div class="pwa-qr-container">
-                <canvas id="pwaQrCanvas"></canvas>
+                <img id="pwaQrCode" src="images/qr-code.png" alt="QR Code" style="width: 200px; height: 200px; display: block; image-rendering: pixelated;">
             </div>
         </div>
     </div>

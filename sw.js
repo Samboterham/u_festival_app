@@ -27,11 +27,12 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Pre-caching static assets');
-      // Use map to fetch each resource and handle single failures gracefully
+      // Resolve each asset to an absolute URL (relative to the service worker file)
       return Promise.allSettled(
         STATIC_ASSETS.map((asset) => {
-          return cache.add(asset).catch((err) => {
-            console.warn(`[Service Worker] Failed to pre-cache asset: ${asset}`, err);
+          const absoluteUrl = new URL(asset, self.location).href;
+          return cache.add(absoluteUrl).catch((err) => {
+            console.warn(`[Service Worker] Failed to pre-cache asset: ${absoluteUrl}`, err);
           });
         })
       );
