@@ -83,6 +83,25 @@
             margin: 0 0 20px;
         }
 
+        .dj-filter-btn {
+            background: var(--day-btn-bg);
+            border: 2px solid var(--day-btn-border);
+            color: var(--day-btn-color);
+            padding: 10px 24px;
+            font-size: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: 'Sansation', sans-serif;
+        }
+
+        .dj-filter-btn.active {
+            background: var(--day-btn-active-bg);
+            color: var(--day-btn-active-color);
+            border-color: var(--day-btn-active-bg);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
         .search-group {
             position: relative;
         }
@@ -592,6 +611,7 @@
                 <input id="artistSearchInput" class="search-input" type="search" placeholder="Zoek artiest..." aria-label="Zoek artiest">
                 <button id="searchClearBtn" type="button" class="search-clear-btn" aria-label="Wis zoekopdracht">&times;</button>
             </div>
+            <button id="djFilterBtn" type="button" class="dj-filter-btn">Toon DJ sets</button>
             <button id="favoriteFilterBtn" type="button" class="favorite-filter-btn">Toon favorieten</button>
         </div>
 
@@ -1045,6 +1065,7 @@
         });
 
         let showFavoritesOnly = false;
+        let showDjSetsOnly = false;
 
         function getSearchQuery() {
             const input = document.getElementById('artistSearchInput');
@@ -1063,6 +1084,18 @@
             }
         }
 
+        function updateDjFilterButton() {
+            const filterBtn = document.getElementById('djFilterBtn');
+            if (!filterBtn) return;
+            if (showDjSetsOnly) {
+                filterBtn.classList.add('active');
+                filterBtn.textContent = 'Alle artiesten';
+            } else {
+                filterBtn.classList.remove('active');
+                filterBtn.textContent = 'Toon DJ sets';
+            }
+        }
+
         function renderGantt(day) {
             const schedule = day === 'saturday' ? saturdaySchedule : sundaySchedule;
             const chart = document.getElementById('ganttChart');
@@ -1076,6 +1109,7 @@
                 const blocks = acts
                     .filter(act => {
                         if (showFavoritesOnly && !isFavorite(act.name)) return false;
+                        if (showDjSetsOnly && !act.name.toLowerCase().includes('dj set')) return false;
                         if (!searchQuery) return true;
                         const name = act.name.toLowerCase();
                         const bioNl = (act.bio_nl || '').toLowerCase();
@@ -1145,6 +1179,14 @@
             updateFavoriteFilterButton();
         });
 
+        document.getElementById('djFilterBtn')?.addEventListener('click', () => {
+            showDjSetsOnly = !showDjSetsOnly;
+            const activeBtn = document.querySelector('.day-btn.active');
+            const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
+            renderGantt(activeDay);
+            updateDjFilterButton();
+        });
+
         document.getElementById('artistSearchInput')?.addEventListener('input', () => {
             const activeBtn = document.querySelector('.day-btn.active');
             const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
@@ -1163,6 +1205,7 @@
 
         renderLegend();
         updateFavoriteFilterButton();
+        updateDjFilterButton();
         renderGantt('saturday');
     </script>
 </body>

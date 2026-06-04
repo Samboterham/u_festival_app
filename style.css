@@ -181,16 +181,17 @@ main,
 
 .nav-menu {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     font-family: "Sansation", sans-serif;
     font-weight: 700;
     font-style: normal;
-    max-width: 400px;
+    max-width: 100%;
+    width: min(560px, 100%);
     margin: 0 auto;
-    padding: 10px 16px;
+    padding: 14px 18px;
     background: var(--footer-bar-bg);
-    border-radius: 28px;
+    border-radius: 32px;
     box-shadow: var(--footer-bar-shadow);
     border: 1px solid var(--border-color);
     pointer-events: auto;
@@ -201,16 +202,18 @@ main,
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 14px;
-    border-radius: 16px;
+    padding: 14px 16px;
+    min-width: 64px;
+    min-height: 64px;
+    border-radius: 18px;
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .nav-menu .nav-btn img.icons {
     display: block;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     opacity: var(--nav-icon-opacity);
     filter: brightness(0) invert(1);
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -290,11 +293,12 @@ main,
 
     .nav-menu {
         max-width: 100%;
-        padding: 8px 10px;
+        width: 100%;
+        padding: 10px 12px;
     }
 
     .nav-menu .nav-btn {
-        padding: 6px 10px;
+        padding: 10px 12px;
     }
 }
 

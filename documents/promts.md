@@ -100,6 +100,8 @@ this.classList.toggle('rotated');
 
 25. "no, left the places, Poton, The Lake, The Club, Hannger, then at the top the times and fill it with the artists"
 
+=======================================================================
+
 Cursor:
 
 1. Make the time table better and use this timetable: +img van blokkenschema
@@ -118,6 +120,7 @@ Cursor:
 
 8. The blue boxes show a weird shadow in light mode
 
+=======================================================================
 Co Pilot:
 
 1. "you placed them on random places"
@@ -126,4 +129,5 @@ Co Pilot:
 4. "no, the number, change 3 to 4 and 4 to 3"
 5. "now give them the design of marker_stage1_ponton.svg"
 6. "and now a bit smaller"
-
+7. ik heb 4 images toegveod van hun gebruk die bij de artiesten profielen
+8. voeg bij alle artiesten een youtube link van een youtube video

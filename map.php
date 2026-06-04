@@ -263,6 +263,7 @@
 
         <div class="map-tools">
             <button class="map-btn" id="findMeBtn" type="button" data-i18n="map.findMeBtn">Gebruik mijn GPS locatie</button>
+            <button class="map-btn" id="nearestBtn" type="button" data-i18n="map.nearestBtn">Vind dichtstbijzijnde podium</button>
             <button class="map-btn secondary" id="fullscreenBtn" type="button" data-i18n="map.fullscreenBtn">Fullscreen kaart</button>
             <span class="gps-status" id="gpsStatus" data-i18n="map.gpsStatus">GPS nog niet geactiveerd.</span>
         </div>
@@ -289,10 +290,10 @@
         // The map now uses a single combined SVG asset with baked-in markers.
 
         const locations = [
-            { id: "stage1", label: "1", name: "Ponton", description: "Locatie 1: Ponton (main stage, hoofdacts).", tips: "Volg de hoofdpaden voor de beste toegang.", image: "images/ponton.png" },
-            { id: "stage2", label: "2", name: "The Lake", description: "Locatie 2: The Lake (onbekend talent).", tips: "Perfect voor frisse beats en ontdekkingen.", image: "images/thelake.png" },
-            { id: "stage3", label: "4", name: "Hangar", description: "Locatie 4: Hangar (non stop house/techno/dance).", tips: "Bereid je voor op een nacht vol energie.", image: "images/hangar.png" },
-            { id: "stage4", label: "3", name: "The Club", description: "Locatie 3: The Club (theater en stand-up comedy).", tips: "Kom vroeg voor de beste zitplekken.", image: "images/theclub.png" }
+            { id: "stage1", label: "1", name: "Ponton", description: "Locatie 1: Ponton (main stage, hoofdacts).", tips: "Volg de hoofdpaden voor de beste toegang.", image: "images/ponton.png", coords: { lat: festivalLat + 0.00015, lon: festivalLon - 0.00010 } },
+            { id: "stage2", label: "2", name: "The Lake", description: "Locatie 2: The Lake (onbekend talent).", tips: "Perfect voor frisse beats en ontdekkingen.", image: "images/thelake.png", coords: { lat: festivalLat - 0.00012, lon: festivalLon + 0.00025 } },
+            { id: "stage3", label: "4", name: "Hangar", description: "Locatie 4: Hangar (non stop house/techno/dance).", tips: "Bereid je voor op een nacht vol energie.", image: "images/hangar.png", coords: { lat: festivalLat + 0.00028, lon: festivalLon + 0.00005 } },
+            { id: "stage4", label: "3", name: "The Club", description: "Locatie 3: The Club (theater en stand-up comedy).", tips: "Kom vroeg voor de beste zitplekken.", image: "images/theclub.png", coords: { lat: festivalLat - 0.00022, lon: festivalLon - 0.00015 } }
         ];
 
         const markerPositions = {
@@ -307,9 +308,12 @@
         const infoCard = document.getElementById("infoCard");
         const gpsStatus = document.getElementById("gpsStatus");
         const findMeBtn = document.getElementById("findMeBtn");
+        const nearestBtn = document.getElementById("nearestBtn");
         const fullscreenBtn = document.getElementById("fullscreenBtn");
         const exitFullscreenBtn = document.getElementById("exitFullscreenBtn");
         let fallbackFullscreen = false;
+        let userLat = null;
+        let userLon = null;
 
         function escapeHtml(str) {
             const div = document.createElement('div');
@@ -343,6 +347,7 @@
                 const marker = document.createElement("button");
                 marker.type = "button";
                 marker.className = "map-marker";
+                marker.dataset.id = location.id;
                 marker.style.left = `${mappedPos.x}%`;
                 marker.style.top = `${mappedPos.y}%`;
                 marker.setAttribute("aria-label", `${location.name} info`);
@@ -356,6 +361,41 @@
 
                 mapWrap.appendChild(marker);
             });
+        }
+
+        function findNearestStageUsing(lat, lon) {
+            if (lat == null || lon == null) return;
+            let best = null;
+            let bestDist = Infinity;
+            locations.forEach(loc => {
+                if (!loc.coords) return;
+                const d = distanceInKm(lat, lon, loc.coords.lat, loc.coords.lon);
+                if (d < bestDist) {
+                    bestDist = d;
+                    best = loc;
+                }
+            });
+            if (!best) return;
+
+            // Highlight marker
+            document.querySelectorAll('.map-marker').forEach(m => m.classList.remove('active'));
+            const target = document.querySelector(`.map-marker[data-id="${best.id}"]`);
+            if (target) target.classList.add('active');
+
+            // Show info and provide route from current pos to that stage
+            const kmText = bestDist < 1 ? `${Math.round(bestDist * 1000)} meter` : `${bestDist.toFixed(2)} km`;
+            const routeUrl = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${best.coords.lat},${best.coords.lon}`;
+            infoCard.innerHTML = `
+                <div class="map-info-img-container">
+                    <img src="${best.image}" alt="${escapeHtml(best.name)}" class="map-info-img">
+                </div>
+                <div class="map-info-content">
+                    <h2>${best.label}. ${escapeHtml(best.name)}</h2>
+                    <p>${escapeHtml(best.description)}</p>
+                    <p><strong>Afstand vanaf jouw locatie:</strong> ${kmText}</p>
+                    <p><a href="${routeUrl}" target="_blank" rel="noopener">Open route naar dit podium</a></p>
+                </div>
+            `;
         }
 
         function toRad(value) {
@@ -376,6 +416,8 @@
 
         function handleGpsSuccess(position) {
             const { latitude, longitude } = position.coords;
+            userLat = latitude;
+            userLon = longitude;
             const km = distanceInKm(latitude, longitude, festivalLat, festivalLon);
             const kmText = km < 1 ? `${Math.round(km * 1000)} meter` : `${km.toFixed(1)} km`;
             gpsStatus.textContent = `Je bent ongeveer ${kmText} van het festivalterrein.`;
@@ -408,6 +450,26 @@
                 timeout: 12000,
                 maximumAge: 30000
             });
+        });
+
+        nearestBtn?.addEventListener('click', () => {
+            if (userLat != null && userLon != null) {
+                findNearestStageUsing(userLat, userLon);
+                return;
+            }
+
+            if (!navigator.geolocation) {
+                gpsStatus.textContent = "Deze browser ondersteunt geen GPS.";
+                return;
+            }
+
+            gpsStatus.textContent = "Locatie ophalen...";
+            navigator.geolocation.getCurrentPosition((pos) => {
+                handleGpsSuccess(pos);
+                findNearestStageUsing(pos.coords.latitude, pos.coords.longitude);
+            }, (err) => {
+                handleGpsError(err);
+            }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
         });
 
         function setFullscreenUiState(isFullscreen) {
