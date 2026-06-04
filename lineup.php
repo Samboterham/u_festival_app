@@ -78,7 +78,53 @@
         .filter-bar {
             display: flex;
             justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
             margin: 0 0 20px;
+        }
+
+        .search-group {
+            position: relative;
+        }
+
+        .search-input {
+            min-width: 220px;
+            max-width: 320px;
+            width: 100%;
+            border: 2px solid var(--day-btn-border);
+            background: var(--day-btn-bg);
+            color: var(--day-btn-color);
+            padding: 10px 42px 10px 16px;
+            font-size: 15px;
+            border-radius: 50px;
+            transition: border-color 0.25s, background 0.25s;
+            font-family: 'Sansation', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--day-btn-active-bg);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--day-btn-color);
+            font-size: 18px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-clear-btn:hover {
+            color: var(--day-btn-active-color);
         }
 
         .favorite-filter-btn {
@@ -542,6 +588,10 @@
         </div>
 
         <div class="filter-bar">
+            <div class="search-group">
+                <input id="artistSearchInput" class="search-input" type="search" placeholder="Zoek artiest..." aria-label="Zoek artiest">
+                <button id="searchClearBtn" type="button" class="search-clear-btn" aria-label="Wis zoekopdracht">&times;</button>
+            </div>
             <button id="favoriteFilterBtn" type="button" class="favorite-filter-btn">Toon favorieten</button>
         </div>
 
@@ -996,6 +1046,11 @@
 
         let showFavoritesOnly = false;
 
+        function getSearchQuery() {
+            const input = document.getElementById('artistSearchInput');
+            return input ? input.value.trim().toLowerCase() : '';
+        }
+
         function updateFavoriteFilterButton() {
             const filterBtn = document.getElementById('favoriteFilterBtn');
             if (!filterBtn) return;
@@ -1011,6 +1066,7 @@
         function renderGantt(day) {
             const schedule = day === 'saturday' ? saturdaySchedule : sundaySchedule;
             const chart = document.getElementById('ganttChart');
+            const searchQuery = getSearchQuery();
 
             let rows = renderTimeAxis();
             rows += '<div class="gantt-rows">';
@@ -1018,7 +1074,14 @@
             STAGES.forEach(stage => {
                 const acts = schedule[stage.id] || [];
                 const blocks = acts
-                    .filter(act => !showFavoritesOnly || isFavorite(act.name))
+                    .filter(act => {
+                        if (showFavoritesOnly && !isFavorite(act.name)) return false;
+                        if (!searchQuery) return true;
+                        const name = act.name.toLowerCase();
+                        const bioNl = (act.bio_nl || '').toLowerCase();
+                        const bioEn = (act.bio_en || '').toLowerCase();
+                        return name.includes(searchQuery) || bioNl.includes(searchQuery) || bioEn.includes(searchQuery);
+                    })
                     .map(act => renderBlock(act, stage)).join('');
                 rows += `
                     <div class="gantt-row">
@@ -1030,8 +1093,17 @@
             rows += '</div>';
             chart.innerHTML = rows;
 
-            if (showFavoritesOnly && chart.querySelectorAll('.gantt-block').length === 0) {
-                chart.querySelector('.gantt-rows').innerHTML = '<div class="no-results">Geen favorieten gevonden voor deze dag.</div>';
+            const visibleBlocks = chart.querySelectorAll('.gantt-block').length;
+            if (visibleBlocks === 0) {
+                let message = 'Geen artiesten gevonden voor deze dag.';
+                if (searchQuery && showFavoritesOnly) {
+                    message = 'Geen favoriete artiesten gevonden voor deze zoekopdracht.';
+                } else if (searchQuery) {
+                    message = 'Geen artiesten gevonden voor deze zoekopdracht.';
+                } else if (showFavoritesOnly) {
+                    message = 'Geen favorieten gevonden voor deze dag.';
+                }
+                chart.querySelector('.gantt-rows').innerHTML = `<div class="no-results">${message}</div>`;
             }
 
             // Wire block event listeners
@@ -1071,6 +1143,22 @@
             const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
             renderGantt(activeDay);
             updateFavoriteFilterButton();
+        });
+
+        document.getElementById('artistSearchInput')?.addEventListener('input', () => {
+            const activeBtn = document.querySelector('.day-btn.active');
+            const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
+            renderGantt(activeDay);
+        });
+
+        document.getElementById('searchClearBtn')?.addEventListener('click', () => {
+            const input = document.getElementById('artistSearchInput');
+            if (!input) return;
+            input.value = '';
+            input.focus();
+            const activeBtn = document.querySelector('.day-btn.active');
+            const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
+            renderGantt(activeDay);
         });
 
         renderLegend();
