@@ -75,6 +75,42 @@
             opacity: 0.9;
         }
 
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            margin: 0 0 20px;
+        }
+
+        .favorite-filter-btn {
+            background: var(--day-btn-bg);
+            border: 2px solid var(--day-btn-border);
+            color: var(--day-btn-color);
+            padding: 10px 24px;
+            font-size: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: 'Sansation', sans-serif;
+        }
+
+        .favorite-filter-btn.active {
+            background: var(--day-btn-active-bg);
+            color: var(--day-btn-active-color);
+            border-color: var(--day-btn-active-bg);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .favorite-filter-btn:hover:not(.active) {
+            opacity: 0.9;
+        }
+
+        .no-results {
+            padding: 24px 18px;
+            text-align: center;
+            color: var(--text-subtle);
+            font-size: 15px;
+        }
+
         .gantt-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -440,6 +476,20 @@
             padding-bottom: 12px;
         }
 
+        .artist-youtube {
+            margin-bottom: 16px;
+        }
+
+        .artist-youtube a {
+            color: var(--color-cerulean);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .artist-youtube a:hover {
+            text-decoration: underline;
+        }
+
         .artist-bio {
             font-size: 1.05rem;
             line-height: 1.6;
@@ -491,6 +541,10 @@
             <button class="day-btn" data-day="sunday" type="button" data-i18n="lineup.sunday">Zondag</button>
         </div>
 
+        <div class="filter-bar">
+            <button id="favoriteFilterBtn" type="button" class="favorite-filter-btn">Toon favorieten</button>
+        </div>
+
         <div class="stage-legend" id="stageLegend"></div>
 
         <div class="gantt-wrapper" id="ganttWrapper">
@@ -516,6 +570,9 @@
                         </button>
                     </div>
                     <div class="artist-meta" id="artistDetailMeta"></div>
+                    <div class="artist-youtube" id="artistDetailYoutubeContainer" style="display:none;">
+                        <a id="artistDetailYoutubeLink" href="#" target="_blank" rel="noopener noreferrer"></a>
+                    </div>
                     <p class="artist-bio" id="artistDetailBio" data-bio-nl="" data-bio-en=""></p>
                 </div>
             </div>
@@ -542,31 +599,37 @@
             podium: [
                 { 
                     name: 'Armin van Buuren', start: '10:30', end: '12:00', headliner: true, image: 'images/armin.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=EIL4UJBvxuM',
                     bio_nl: 'Armin van Buuren is een wereldberoemde Nederlandse DJ en producer van trancemuziek. Hij werd maar liefst vijf keer uitgeroepen tot nummer 1 DJ van de wereld en is bekend van hits als "This Is What It Feels Like".',
                     bio_en: 'Armin van Buuren is a world-renowned Dutch DJ and trance music producer. He has been crowned the world\'s number one DJ a record five times and is famous for anthems like "This Is What It Feels Like".'
                 },
                 { 
-                    name: 'Kensington', start: '12:30', end: '14:15', headliner: true, image: '',
+                    name: 'Kensington', start: '12:30', end: '14:15', headliner: true, image: 'images/kensington.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=ZoQO7e2THIw&list=RDZoQO7e2THIw&start_radio=1',
                     bio_nl: 'Kensington is een van de succesvolste Nederlandse rockbands van het afgelopen decennium, bekend om hun meeslepende gitaarriffs en epische stadionshows met hits zoals "War" en "Sorry".',
                     bio_en: 'Kensington is one of the most successful Dutch rock bands of the past decade, known for their gripping guitar riffs and epic stadium shows featuring hits like "War" and "Sorry".'
                 },
                 { 
-                    name: 'De Staat', start: '15:00', end: '16:45', headliner: true, image: '',
+                    name: 'De Staat', start: '15:00', end: '16:45', headliner: true, image: 'images/destaat.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=0ttGgIQpAUc&list=RD0ttGgIQpAUc&start_radio=1',
                     bio_nl: 'De Staat is een Nederlandse alternatieve rockband uit Nijmegen. De band staat bekend om hun energieke, ritmische en humoristische rocktracks en legendarische festivalshows.',
                     bio_en: 'De Staat is a Dutch alternative rock band from Nijmegen. They are famous for their energetic, rhythmic, and humorous rock tracks and legendary festival performances.'
                 },
                 { 
-                    name: 'Navarone', start: '17:15', end: '18:30', headliner: true, image: '',
+                    name: 'Navarone', start: '17:15', end: '18:30', headliner: true, image: 'images/navarone.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=48PZSz2VV9k',
                     bio_nl: 'Navarone is een Nederlandse rockband die bekend staat om hun energieke liveshows en een unieke mix van 70s rock en moderne alternatieve rock.',
                     bio_en: 'Navarone is a Dutch rock band known for their energetic live shows and a unique mixture of 70s rock and modern alternative rock.'
                 },
                 { 
-                    name: 'Dotan', start: '19:00', end: '21:00', headliner: true, image: '',
+                    name: 'Dotan', start: '19:00', end: '21:00', headliner: true, image: 'images/dotan.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=w2ZB7WF_Hko&list=RDw2ZB7WF_Hko&start_radio=1',
                     bio_nl: 'Dotan is een Nederlandse singer-songwriter die bekendstaat om zijn sfeervolle indie-folk en emotionele, krachtige ballads zoals "Home".',
                     bio_en: 'Dotan is a Dutch singer-songwriter known for his atmospheric indie-folk and emotional, powerful ballads like "Home".'
                 },
                 { 
                     name: 'Froukje', start: '21:30', end: '23:45', headliner: true, image: 'images/froukje.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=1Eubp_a4zSg&list=RD1Eubp_a4zSg&start_radio=1',
                     bio_nl: 'Froukje is een jonge, getalenteerde Nederlandse zangeres en songschrijver. Met haar maatschappelijk geëngageerde en dansbare Nederlandstalige popmuziek wist ze in korte tijd de harten van vele muziekliefhebbers te veroveren.',
                     bio_en: 'Froukje is a young, talented Dutch singer-songwriter. With her socially engaged and danceable Dutch-language pop music, she quickly captured the hearts of music fans nationwide.'
                 }
@@ -604,26 +667,31 @@
             podium: [
                 { 
                     name: 'Martin Garrix', start: '10:45', end: '12:45', headliner: true, image: 'images/garrix.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=AN2cMkRpvyg',
                     bio_nl: 'Martin Garrix is een Nederlandse DJ en producer die op 17-jarige leeftijd wereldwijd doorbrak met zijn megahit "Animals". Sindsdien is hij een vaste headliner op de grootste festivals ter wereld.',
                     bio_en: 'Martin Garrix is a Dutch DJ and producer who achieved global fame at the age of 17 with his chart-topping hit "Animals". He is now a staple headliner at the world\'s largest music festivals.'
                 },
                 { 
                     name: 'Within Temptation', start: '13:45', end: '15:45', headliner: true, image: '',
+                    youtube_url: 'https://www.youtube.com/watch?v=Jf1fSWq7szk',
                     bio_nl: 'Within Temptation is een Nederlandse symfonische metalband opgericht in 1996 door Sharon den Adel en Robert Westerholt. Ze zijn wereldwijd bekend om hun melodische en krachtige metal sound.',
                     bio_en: 'Within Temptation is a Dutch symphonic metal band founded in 1996 by vocalist Sharon den Adel and guitarist Robert Westerholt. They are globally renowned for their melodic and powerful metal sound.'
                 },
                 { 
                     name: "Chef'Special", start: '16:30', end: '18:30', headliner: true, image: '',
+                    youtube_url: 'https://www.youtube.com/watch?v=lZKqbRZ1Tfc',
                     bio_nl: 'Chef\'Special is een Nederlandse indiepopband uit Haarlem, opgericht in 2008. Hun unieke mix van reggae, rock en hiphop zorgt altijd voor een energieke, positieve festival vibe.',
                     bio_en: 'Chef\'Special is a Dutch indie pop band from Haarlem, formed in 2008. Their unique blend of reggae, rock, and hip-hop consistently delivers an energetic, positive festival vibe.'
                 },
                 { 
                     name: 'Eefje de Visser', start: '19:15', end: '21:15', headliner: true, image: '',
+                    youtube_url: 'https://www.youtube.com/watch?v=8zZch3VwM4Q',
                     bio_nl: 'Eefje de Visser is een Nederlandse zangeres en songschrijver met een betoverend mooie, melancholische indie-pop sound en een visueel verbluffende liveshow.',
                     bio_en: 'Eefje de Visser is a Dutch singer-songwriter featuring an enchantingly beautiful, melancholic indie-pop sound and a visually stunning live performance.'
                 },
                 { 
                     name: 'Spinvis', start: '22:00', end: '23:45', headliner: true, image: 'images/spinvis.png',
+                    youtube_url: 'https://www.youtube.com/watch?v=byPbBj5zQbA',
                     bio_nl: 'Spinvis is de eenmansband van Erik de Jong. Het in 2002 uitgekomen lo-fi debuut laat poëtische teksten en melancholische melodieën horen die Spinvis op zijn zolderkamer in elkaar knutselde. Zijn unieke sound is een begrip in de Nederlandse popmuziek.',
                     bio_en: 'Spinvis is the project of Dutch indie pop artist Erik de Jong. His lo-fi debut released in 2002 features poetic lyrics and melancholic melodies recorded in his attic. His unique sound is legendary in the Dutch music scene.'
                 }
@@ -828,6 +896,18 @@
                 if (photoContainer) photoContainer.classList.remove('has-image');
             }
 
+            const youtubeContainer = document.getElementById('artistDetailYoutubeContainer');
+            const youtubeLink = document.getElementById('artistDetailYoutubeLink');
+            if (youtubeContainer && youtubeLink) {
+                if (act.youtube_url) {
+                    youtubeLink.href = act.youtube_url;
+                    youtubeLink.textContent = 'Bekijk officiële video op YouTube';
+                    youtubeContainer.style.display = 'block';
+                } else {
+                    youtubeContainer.style.display = 'none';
+                }
+            }
+
             // Set favorite button active state
             if (isFavorite(act.name)) {
                 detailFav.classList.add('active');
@@ -877,57 +957,6 @@
             setTimeout(updateArtistBioLanguage, 50);
         });
 
-        function renderGantt(day) {
-            const schedule = day === 'saturday' ? saturdaySchedule : sundaySchedule;
-            const chart = document.getElementById('ganttChart');
-
-            let rows = renderTimeAxis();
-            rows += '<div class="gantt-rows">';
-
-            STAGES.forEach(stage => {
-                const acts = schedule[stage.id] || [];
-                const blocks = acts.map(act => renderBlock(act, stage)).join('');
-                rows += `
-                    <div class="gantt-row">
-                        <div class="gantt-stage-label" style="--stage-color:${stage.color}">${escapeHtml(stage.name)}</div>
-                        <div class="gantt-track">${blocks}</div>
-                    </div>`;
-            });
-
-            rows += '</div>';
-            chart.innerHTML = rows;
-
-            // Wire block event listeners
-            chart.querySelectorAll('.gantt-block').forEach(block => {
-                const artistName = block.dataset.name;
-
-                // Click block -> details view
-                block.addEventListener('click', (e) => {
-                    // Ignore clicks that target the favorite button inside the block
-                    if (e.target.closest('.block-favorite-btn')) return;
-                    showArtistDetail(artistName);
-                });
-
-                // Keypress block -> details view
-                block.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        if (e.target.closest('.block-favorite-btn')) return;
-                        e.preventDefault();
-                        showArtistDetail(artistName);
-                    }
-                });
-
-                // Toggling favorites on block heart click
-                const favBtn = block.querySelector('.block-favorite-btn');
-                if (favBtn) {
-                    favBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        toggleFavorite(artistName);
-                    });
-                }
-            });
-        }
-
         document.querySelectorAll('.day-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
@@ -965,7 +994,87 @@
             wrapper.scrollLeft = scrollLeft - (x - startX) * 2;
         });
 
+        let showFavoritesOnly = false;
+
+        function updateFavoriteFilterButton() {
+            const filterBtn = document.getElementById('favoriteFilterBtn');
+            if (!filterBtn) return;
+            if (showFavoritesOnly) {
+                filterBtn.classList.add('active');
+                filterBtn.textContent = 'Alle artiesten';
+            } else {
+                filterBtn.classList.remove('active');
+                filterBtn.textContent = 'Toon favorieten';
+            }
+        }
+
+        function renderGantt(day) {
+            const schedule = day === 'saturday' ? saturdaySchedule : sundaySchedule;
+            const chart = document.getElementById('ganttChart');
+
+            let rows = renderTimeAxis();
+            rows += '<div class="gantt-rows">';
+
+            STAGES.forEach(stage => {
+                const acts = schedule[stage.id] || [];
+                const blocks = acts
+                    .filter(act => !showFavoritesOnly || isFavorite(act.name))
+                    .map(act => renderBlock(act, stage)).join('');
+                rows += `
+                    <div class="gantt-row">
+                        <div class="gantt-stage-label" style="--stage-color:${stage.color}">${escapeHtml(stage.name)}</div>
+                        <div class="gantt-track">${blocks}</div>
+                    </div>`;
+            });
+
+            rows += '</div>';
+            chart.innerHTML = rows;
+
+            if (showFavoritesOnly && chart.querySelectorAll('.gantt-block').length === 0) {
+                chart.querySelector('.gantt-rows').innerHTML = '<div class="no-results">Geen favorieten gevonden voor deze dag.</div>';
+            }
+
+            // Wire block event listeners
+            chart.querySelectorAll('.gantt-block').forEach(block => {
+                const artistName = block.dataset.name;
+
+                // Click block -> details view
+                block.addEventListener('click', (e) => {
+                    // Ignore clicks that target the favorite button inside the block
+                    if (e.target.closest('.block-favorite-btn')) return;
+                    showArtistDetail(artistName);
+                });
+
+                // Keypress block -> details view
+                block.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.target.closest('.block-favorite-btn')) return;
+                        e.preventDefault();
+                        showArtistDetail(artistName);
+                    }
+                });
+
+                // Toggling favorites on block heart click
+                const favBtn = block.querySelector('.block-favorite-btn');
+                if (favBtn) {
+                    favBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(artistName);
+                    });
+                }
+            });
+        }
+
+        document.getElementById('favoriteFilterBtn')?.addEventListener('click', () => {
+            showFavoritesOnly = !showFavoritesOnly;
+            const activeBtn = document.querySelector('.day-btn.active');
+            const activeDay = activeBtn ? activeBtn.getAttribute('data-day') : 'saturday';
+            renderGantt(activeDay);
+            updateFavoriteFilterButton();
+        });
+
         renderLegend();
+        updateFavoriteFilterButton();
         renderGantt('saturday');
     </script>
 </body>
